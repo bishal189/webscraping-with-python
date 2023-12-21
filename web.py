@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 import openpyxl
 from datetime import datetime
 
+
+
+# headers 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 def scrape_artist_data(url):
    
@@ -15,6 +18,7 @@ def scrape_artist_data(url):
         ages=[]
 
         for name in soup.select('.ipc-metadata-list-item--link .ipc-metadata-list-item__content-container .ipc-inline-list__item .ipc-metadata-list-item__list-content-item'):
+            #Since each actor names are repeated twice 
             if name.text in artist_names:
                 break
             else:
@@ -56,10 +60,9 @@ def save_to_excel(artist_names, ages, images,sheet):
         sheet.append([artist, age, image])
 
 
-
-
-url_to_scrape='https://m.imdb.com/chart/top/'
-response = requests.get(url_to_scrape, headers=headers)
+# main starts 
+main_url='https://m.imdb.com/chart/top/'
+response = requests.get(main_url, headers=headers)
 soup = BeautifulSoup(response.text, 'html.parser')
 workbook = openpyxl.Workbook()
 sheet = workbook.active
